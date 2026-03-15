@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %}{{ task.title }} - Hangarin{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="page-inner">
+        <div class="page-header">
+            <h4 class="page-title">Task Detail</h4>
+        </div>
+
+        <div class="row">
+            <!-- Task Info -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">{{ task.title }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Description:</strong> {{ task.description }}</p>
+                        <p><strong>Status:</strong>
+                            {% if task.status == 'Completed' %}
+                                <span class="badge badge-success">{{ task.status }}</span>
+                            {% elif task.status == 'In Progress' %}
+                                <span class="badge badge-warning">{{ task.status }}</span>
+                            {% else %}
+                                <span class="badge badge-danger">{{ task.status }}</span>
+                            {% endif %}
+                        </p>
+                        <p><strong>Priority:</strong> {{ task.priority }}</p>
+                        <p><strong>Category:</strong> {{ task.category }}</p>
+                        <p><strong>Deadline:</strong> {{ task.deadline|date:"M d, Y h:i A" }}</p>
+                        <p><strong>Created:</strong> {{ task.created_at|date:"M d, Y" }}</p>
+                    </div>
+                </div>
+
+                <!-- SubTasks -->
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Sub Tasks</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Title</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for sub in subtasks %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ sub.title }}</td>
+                                    <td>
+                                        {% if sub.status == 'Completed' %}
+                                            <span class="badge badge-success">{{ sub.status }}</span>
+                                        {% elif sub.status == 'In Progress' %}
+                                            <span class="badge badge-warning">{{ sub.status }}</span>
+                                        {% else %}
+                                            <span class="badge badge-danger">{{ sub.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr><td colspan="3">No subtasks yet.</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Notes</h4>
+                    </div>
+                    <div class="card-body">
+                        {% for note in notes %}
+                        <div class="alert alert-light">
+                            <p>{{ note.content }}</p>
+                            <small class="text-muted">{{ note.created_at|date:"M d, Y" }}</small>
+                        </div>
+                        {% empty %}
+                        <p>No notes yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="{% url 'task_list' %}" class="btn btn-secondary">
+            <i class="la la-arrow-left"></i> Back to Tasks
+        </a>
+
+    </div>
+</div>
+{% endblock %}

@@ -18,7 +18,11 @@ def dashboard(request):
     completed = Task.objects.filter(status='Completed').count()
     pending = Task.objects.filter(status='Pending').count()
     in_progress = Task.objects.filter(status='In Progress').count()
+    recent_tasks = Task.objects.all().order_by('-created_at')[:5]
     return render(request, 'taskmanager/dashboard.html', {
-        'total': total, 'completed': completed,
-        'pending': pending, 'in_progress': in_progress
+        'total': total,
+        'completed': completed,
+        'pending': pending,
+        'in_progress': in_progress,
+        'recent_tasks': recent_tasks,
     })

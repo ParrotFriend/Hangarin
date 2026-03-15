@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Tasks - Hangarin{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="page-inner">
+        <div class="page-header">
+            <h4 class="page-title">All Tasks</h4>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Task List</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Title</th>
+                                        <th>Status</th>
+                                        <th>Priority</th>
+                                        <th>Category</th>
+                                        <th>Deadline</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for task in tasks %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ task.title }}</td>
+                                        <td>
+                                            {% if task.status == 'Completed' %}
+                                                <span class="badge badge-success">{{ task.status }}</span>
+                                            {% elif task.status == 'In Progress' %}
+                                                <span class="badge badge-warning">{{ task.status }}</span>
+                                            {% else %}
+                                                <span class="badge badge-danger">{{ task.status }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ task.priority }}</td>
+                                        <td>{{ task.category }}</td>
+                                        <td>{{ task.deadline|date:"M d, Y" }}</td>
+                                        <td>
+                                            <a href="{% url 'task_detail' task.pk %}" class="btn btn-primary btn-sm">
+                                                <i class="la la-eye"></i> View
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
