@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-337i!2k&88o@&e!2rw2_3r*$p+&pzywmq1yfo5i4btp4t(#f9o
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'Jonnebert1.pythonanywhere.com']
-
+CSRF_TRUSTED_ORIGINS = ['https://Jonnebert1.pythonanywhere.com']
 
 # Application definition
 
